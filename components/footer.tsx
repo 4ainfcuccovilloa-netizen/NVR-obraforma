@@ -1,78 +1,82 @@
 import Link from "next/link"
-import { Instagram, Facebook, MessageCircle, Phone, Mail, MapPin } from "lucide-react"
+import Image from "next/image"
+import { Instagram, Phone, Mail, MapPin } from "lucide-react"
 
-const quickLinks = [
-  { href: "#portfolio", label: "Portafolio" },
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.82 2.89 2.89 0 0 1 5.1-1.81V9.4a6.84 6.84 0 0 0-5.1 2.81v4.3a6.83 6.83 0 0 0 12.19 4.72v-4.28a3.52 3.52 0 0 0 2.04-.66z" />
+    </svg>
+  )
+}
+
+const navLinks = [
+  { href: "#proyectos", label: "Proyectos" },
   { href: "#servicios", label: "Servicios" },
-  { href: "#nosotros", label: "Sobre Nosotros" },
+  { href: "#nosotros", label: "Nosotros" },
+  { href: "#testimonios", label: "Testimonios" },
+  { href: "#calculadora", label: "Presupuesto" },
   { href: "#proceso", label: "Proceso" },
   { href: "#contacto", label: "Contacto" },
 ]
 
-const services = [
-  { href: "#servicios", label: "Reformas de Viviendas" },
-  { href: "#servicios", label: "Locales Comerciales" },
-  { href: "#servicios", label: "Direccion Tecnica" },
+const serviceLinks = [
+  "Reformas de Viviendas",
+  "Locales Comerciales",
+  "Dirección Técnica",
 ]
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
+  const year = new Date().getFullYear()
 
   return (
     <footer className="bg-foreground text-background">
-      <div className="container mx-auto px-4 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
-            <Link href="/" className="inline-block mb-4">
-              <span className="text-xl font-semibold tracking-tight">NVR</span>
-              <span className="text-xs uppercase tracking-[0.2em] opacity-60 ml-2">
-                Obraforma
+            <Link href="/" className="flex items-center gap-3 mb-6">
+              <Image src="/logo.jpg" alt="NVR Obraforma" width={40} height={40} className="h-10 w-10 brightness-0 invert" />
+              <span>
+                <span className="block text-base font-serif text-background">NVR</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-background/50">Obraforma</span>
               </span>
             </Link>
-            <p className="text-sm opacity-70 mb-6 leading-relaxed">
-              Transformamos espacios con precision. Mas de 15 anos creando hogares y locales comerciales excepcionales en Barcelona.
+            <p className="text-sm text-background/60 leading-relaxed mb-6 max-w-xs">
+              Transformamos espacios con precisión. Más de 15 años creando hogares y locales
+              comerciales excepcionales en Barcelona.
             </p>
             <div className="flex gap-3">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/nvr_obraforma/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
-                aria-label="Instagram"
+                className="w-9 h-9 bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
+                aria-label="Instagram de NVR Obraforma"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="h-4 w-4" aria-hidden="true" />
               </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
+              <a
+                href="https://www.tiktok.com/@nvr.obraforma"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
-                aria-label="Facebook"
+                className="w-9 h-9 bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
+                aria-label="TikTok de NVR Obraforma"
               >
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://wa.me/34626724630" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
-                aria-label="WhatsApp"
-              >
-                <MessageCircle className="w-4 h-4" />
+                <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Nav */}
           <div>
-            <h4 className="font-semibold mb-4">Enlaces rapidos</h4>
+            <h4 className="text-xs uppercase tracking-widest text-background/50 mb-5">Navegación</h4>
             <ul className="space-y-3">
-              {quickLinks.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link 
+                  <Link
                     href={link.href}
-                    className="text-sm opacity-70 hover:opacity-100 transition-opacity"
+                    className="text-sm text-background/60 hover:text-background transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -83,15 +87,15 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-semibold mb-4">Servicios</h4>
+            <h4 className="text-xs uppercase tracking-widest text-background/50 mb-5">Servicios</h4>
             <ul className="space-y-3">
-              {services.map((service) => (
-                <li key={service.label}>
-                  <Link 
-                    href={service.href}
-                    className="text-sm opacity-70 hover:opacity-100 transition-opacity"
+              {serviceLinks.map((s) => (
+                <li key={s}>
+                  <Link
+                    href="#servicios"
+                    className="text-sm text-background/60 hover:text-background transition-colors"
                   >
-                    {service.label}
+                    {s}
                   </Link>
                 </li>
               ))}
@@ -100,50 +104,58 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4">Contacto</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xs uppercase tracking-widest text-background/50 mb-5">Contacto</h4>
+            <ul className="space-y-4">
               <li>
-                <a 
+                <a
                   href="tel:+34626724630"
-                  className="flex items-center gap-2 text-sm opacity-70 hover:opacity-100 transition-opacity"
+                  className="flex items-center gap-3 text-sm text-background/60 hover:text-background transition-colors"
                 >
-                  <Phone className="w-4 h-4" />
+                  <Phone className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
                   +34 626 724 630
                 </a>
               </li>
               <li>
-                <a 
+                <a
                   href="mailto:info@nvrobraforma.com"
-                  className="flex items-center gap-2 text-sm opacity-70 hover:opacity-100 transition-opacity"
+                  className="flex items-center gap-3 text-sm text-background/60 hover:text-background transition-colors"
                 >
-                  <Mail className="w-4 h-4" />
+                  <Mail className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
                   info@nvrobraforma.com
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-sm opacity-70">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>Collbato, 08293<br />Barcelona, Espana</span>
+              <li className="flex items-start gap-3 text-sm text-background/60">
+                <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <span>
+                  Collbató, 08293
+                  <br />
+                  Barcelona, España
+                </span>
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom bar */}
       <div className="border-t border-background/10">
-        <div className="container mx-auto px-4 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm opacity-60">
-              &copy; {currentYear} NVR Obraforma. Todos los derechos reservados.
-            </p>
-            <div className="flex gap-6">
-              <Link href="/privacidad" className="text-sm opacity-60 hover:opacity-100 transition-opacity">
-                Politica de Privacidad
-              </Link>
-              <Link href="/legal" className="text-sm opacity-60 hover:opacity-100 transition-opacity">
-                Aviso Legal
-              </Link>
-            </div>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-background/40">
+            &copy; {year} NVR Obraforma. Todos los derechos reservados.
+          </p>
+          <div className="flex gap-6">
+            <Link
+              href="/privacidad"
+              className="text-xs text-background/40 hover:text-background/80 transition-colors"
+            >
+              Política de Privacidad
+            </Link>
+            <Link
+              href="/legal"
+              className="text-xs text-background/40 hover:text-background/80 transition-colors"
+            >
+              Aviso Legal
+            </Link>
           </div>
         </div>
       </div>

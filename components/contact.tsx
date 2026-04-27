@@ -1,29 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { Phone, MapPin, Clock, MessageCircle, CheckCircle, Shield, Send, Instagram, Facebook } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { Phone, MapPin, Clock, Instagram, Send, Shield, CheckCircle2 } from "lucide-react"
 
-const contactInfo = [
-  { icon: Phone, label: "Telefono", value: "+34 626 724 630", href: "tel:+34626724630" },
-  { icon: MapPin, label: "Ubicacion", value: "Collbato, 08293, Barcelona" },
-  { icon: Clock, label: "Horario", value: "Lunes - Viernes: 07:30h - 18:00h\nSabado: 07:30h - 14:00h\nDomingo: Cerrado" },
-]
-
-const benefits = [
-  "Consultar disponibilidad por WhatsApp",
-  "Visita tecnica gratuita y sin compromiso",
-  "Respuesta garantizada en menos de 24/48 horas",
-  "Cumplimiento estricto de la LSSI y Privacidad",
-]
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.1 1.82 2.89 2.89 0 0 1 5.1-1.81V9.4a6.84 6.84 0 0 0-5.1 2.81v4.3a6.83 6.83 0 0 0 12.19 4.72v-4.28a3.52 3.52 0 0 0 2.04-.66z" />
+    </svg>
+  )
+}
 
 const projectTypes = [
-  { value: "", label: "Seleccionar..." },
+  { value: "", label: "Seleccionar tipo de proyecto..." },
   { value: "residencial", label: "Reforma residencial" },
   { value: "local", label: "Local comercial" },
-  { value: "direccion", label: "Direccion tecnica" },
+  { value: "direccion", label: "Dirección técnica" },
   { value: "otro", label: "Otro" },
 ]
 
@@ -34,6 +26,7 @@ export function Contact() {
     phone: "",
     projectType: "",
     message: "",
+    privacy: false,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -41,228 +34,247 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
+    await new Promise((resolve) => setTimeout(resolve, 1500))
     setIsSubmitting(false)
     setIsSubmitted(true)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const target = e.target as HTMLInputElement
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [target.name]: target.type === "checkbox" ? target.checked : target.value,
     }))
   }
 
   return (
-    <section id="contacto" className="py-24 lg:py-32 bg-background">
-      <div className="container mx-auto px-4 lg:px-8">
+    <section id="contacto" className="py-24 lg:py-32 bg-secondary/40">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4 block">
-            Contacto
-          </span>
-          <h2 className="text-3xl lg:text-4xl font-serif mb-4">
-            Hablemos de tu proyecto
-          </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
-            Cada gran proyecto comienza con una conversacion. Cuentanos tu vision y juntos la haremos realidad.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
+          <div>
+            <span className="text-xs uppercase tracking-[0.4em] text-accent mb-4 block font-medium">
+              Contacto
+            </span>
+            <h2 className="text-4xl md:text-5xl font-serif text-foreground leading-tight mb-6">
+              Hablemos de tu proyecto
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Cada gran proyecto comienza con una conversación. Cuéntanos tu visión y juntos la
+              haremos realidad.
+            </p>
+          </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            {/* Info Cards */}
-            <div className="space-y-4">
-              {contactInfo.map((item) => (
-                <div key={item.label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-0.5">{item.label}</p>
-                    {item.href ? (
-                      <a href={item.href} className="font-medium hover:underline whitespace-pre-line">
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="font-medium whitespace-pre-line">{item.value}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Benefits */}
-            <div className="bg-secondary/50 rounded-xl p-6">
-              <ul className="space-y-3">
-                {benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-center gap-3 text-sm">
-                    <CheckCircle className="w-4 h-4 text-foreground flex-shrink-0" />
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <p className="text-sm text-muted-foreground mb-3">Siguenos</p>
-              <div className="flex gap-3">
-                <Link 
-                  href="https://instagram.com" 
-                  target="_blank"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
+          {/* Contact details */}
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-foreground/5 flex items-center justify-center flex-shrink-0">
+                <Phone className="h-4 w-4 text-foreground" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-0.5">
+                  Teléfono
+                </p>
+                <a
+                  href="tel:+34626724630"
+                  className="text-foreground hover:text-accent transition-colors font-medium"
                 >
-                  <Instagram className="w-5 h-5" />
-                </Link>
-                <Link 
-                  href="https://facebook.com" 
-                  target="_blank"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
-                >
-                  <Facebook className="w-5 h-5" />
-                </Link>
-                <a 
-                  href="https://wa.me/34626724630"
-                  target="_blank"
-                  className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
-                >
-                  <MessageCircle className="w-5 h-5" />
+                  +34 626 724 630
                 </a>
               </div>
             </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="bg-card border rounded-2xl p-6 lg:p-8">
-              <h3 className="text-lg font-semibold mb-6">Solicitar presupuesto</h3>
-              
-              {isSubmitted ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-full bg-foreground/10 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-8 h-8 text-foreground" />
-                  </div>
-                  <h4 className="text-lg font-semibold mb-2">Mensaje enviado</h4>
-                  <p className="text-muted-foreground text-sm">
-                    Te responderemos en menos de 24 horas. Gracias por contactarnos.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label htmlFor="name" className="text-sm font-medium mb-2 block">
-                      Nombre <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-                      placeholder="Tu nombre"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="text-sm font-medium mb-2 block">
-                      Email <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-                      placeholder="tu@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="phone" className="text-sm font-medium mb-2 block">
-                      Telefono
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-                      placeholder="+34 600 000 000"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="projectType" className="text-sm font-medium mb-2 block">
-                      Tipo de proyecto
-                    </label>
-                    <select
-                      id="projectType"
-                      name="projectType"
-                      value={formData.projectType}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all"
-                    >
-                      {projectTypes.map(type => (
-                        <option key={type.value} value={type.value}>
-                          {type.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="text-sm font-medium mb-2 block">
-                      Mensaje
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all resize-none"
-                      placeholder="Cuentanos sobre tu proyecto..."
-                    />
-                  </div>
-
-                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      "Enviando..."
-                    ) : (
-                      <>
-                        Enviar mensaje
-                        <Send className="w-4 h-4 ml-2" />
-                      </>
-                    )}
-                  </Button>
-
-                  <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1.5">
-                    <Shield className="w-3 h-3" />
-                    Tus datos estan protegidos segun la LOPD
-                  </p>
-                </form>
-              )}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-foreground/5 flex items-center justify-center flex-shrink-0">
+                <MapPin className="h-4 w-4 text-foreground" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-0.5">
+                  Ubicación
+                </p>
+                <p className="text-foreground">Collbató, 08293, Barcelona</p>
+              </div>
             </div>
-          </motion.div>
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-foreground/5 flex items-center justify-center flex-shrink-0">
+                <Clock className="h-4 w-4 text-foreground" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-0.5">
+                  Horario
+                </p>
+                <p className="text-foreground text-sm leading-relaxed">
+                  Lunes – Viernes: 07:30 – 18:00
+                  <br />
+                  Sábado: 07:30 – 14:00
+                  <br />
+                  Domingo: Cerrado
+                </p>
+              </div>
+            </div>
+
+            {/* Social */}
+            <div className="flex items-center gap-4 pt-4">
+              <a
+                href="https://www.instagram.com/nvr_obraforma/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors text-sm"
+              >
+                <Instagram className="h-5 w-5" aria-hidden="true" />
+                <span className="hidden sm:inline">Instagram</span>
+              </a>
+              <a
+                href="https://www.tiktok.com/@nvr.obraforma"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-muted-foreground hover:text-accent transition-colors text-sm"
+              >
+                <TikTokIcon className="h-5 w-5" />
+                <span className="hidden sm:inline">TikTok</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="bg-card border border-border p-8 lg:p-12">
+          <h3 className="text-2xl font-serif text-foreground mb-8">Solicitar presupuesto</h3>
+
+          {isSubmitted ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <CheckCircle2 className="h-16 w-16 text-accent mb-6" aria-hidden="true" />
+              <h4 className="text-2xl font-serif text-foreground mb-3">Mensaje recibido</h4>
+              <p className="text-muted-foreground max-w-md">
+                Te responderemos en menos de 24 horas. Gracias por contactarnos.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                  Nombre <span className="text-accent">*</span>
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-foreground focus:outline-none transition-colors text-foreground placeholder:text-muted-foreground/50"
+                  placeholder="Tu nombre completo"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                  Email <span className="text-accent">*</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-foreground focus:outline-none transition-colors text-foreground placeholder:text-muted-foreground/50"
+                  placeholder="tu@email.com"
+                />
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                  Teléfono
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-foreground focus:outline-none transition-colors text-foreground placeholder:text-muted-foreground/50"
+                  placeholder="+34 600 000 000"
+                />
+              </div>
+
+              {/* Project type */}
+              <div>
+                <label htmlFor="projectType" className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                  Tipo de proyecto
+                </label>
+                <select
+                  id="projectType"
+                  name="projectType"
+                  value={formData.projectType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-foreground focus:outline-none transition-colors text-foreground"
+                >
+                  {projectTypes.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Message */}
+              <div className="md:col-span-2">
+                <label htmlFor="message" className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
+                  Mensaje
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-background border border-border focus:border-foreground focus:outline-none transition-colors resize-none text-foreground placeholder:text-muted-foreground/50"
+                  placeholder="Cuéntanos sobre tu proyecto: espacios, plazos, ideas..."
+                />
+              </div>
+
+              {/* Privacy */}
+              <div className="md:col-span-2 flex items-start gap-3">
+                <input
+                  id="privacy"
+                  name="privacy"
+                  type="checkbox"
+                  required
+                  checked={formData.privacy}
+                  onChange={handleChange}
+                  className="mt-0.5 h-4 w-4 border-border bg-background accent-foreground"
+                />
+                <label htmlFor="privacy" className="text-xs text-muted-foreground leading-relaxed">
+                  He leído y acepto la{" "}
+                  <a href="/privacidad" className="underline hover:text-foreground transition-colors">
+                    Política de Privacidad
+                  </a>{" "}
+                  y autorizo el tratamiento de mis datos personales.
+                </label>
+              </div>
+
+              {/* Submit */}
+              <div className="md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground disabled:opacity-50 transition-colors duration-300"
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+                  <Send className="h-4 w-4" aria-hidden="true" />
+                </button>
+                <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  <Shield className="h-3 w-3" aria-hidden="true" />
+                  Tus datos están protegidos según la LOPD
+                </p>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </section>

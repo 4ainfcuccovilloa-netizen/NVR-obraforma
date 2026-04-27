@@ -7,51 +7,89 @@
   --font-sans: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Playfair Display', 'Playfair Display Fallback', ui-serif, Georgia, serif;
 
-  --color-background: oklch(0.98 0 0);
-  --color-foreground: oklch(0.15 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.15 0 0);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.15 0 0);
-  --color-primary: oklch(0.25 0 0);
-  --color-primary-foreground: oklch(0.98 0 0);
-  --color-secondary: oklch(0.95 0 0);
-  --color-secondary-foreground: oklch(0.15 0 0);
-  --color-muted: oklch(0.95 0 0);
-  --color-muted-foreground: oklch(0.5 0 0);
-  --color-accent: oklch(0.95 0 0);
-  --color-accent-foreground: oklch(0.15 0 0);
+  --color-background: oklch(0.13 0 0);
+  --color-foreground: oklch(0.96 0 0);
+  --color-card: oklch(0.17 0 0);
+  --color-card-foreground: oklch(0.96 0 0);
+  --color-popover: oklch(0.17 0 0);
+  --color-popover-foreground: oklch(0.96 0 0);
+  --color-primary: oklch(0.96 0 0);
+  --color-primary-foreground: oklch(0.13 0 0);
+  --color-secondary: oklch(0.18 0 0);
+  --color-secondary-foreground: oklch(0.96 0 0);
+  --color-muted: oklch(0.22 0 0);
+  --color-muted-foreground: oklch(0.55 0 0);
+  --color-accent: oklch(0.75 0.12 85);
+  --color-accent-foreground: oklch(0.13 0 0);
   --color-destructive: oklch(0.55 0.2 25);
   --color-destructive-foreground: oklch(0.98 0 0);
-  --color-border: oklch(0.88 0 0);
-  --color-input: oklch(0.88 0 0);
-  --color-ring: oklch(0.25 0 0);
+  --color-border: oklch(0.25 0 0);
+  --color-input: oklch(0.25 0 0);
+  --color-ring: oklch(0.75 0.12 85);
 
-  --radius: 0.625rem;
+  --radius: 0rem;
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0rem;
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
   }
 }
 
-/* Custom scrollbar */
+/* Ken Burns effect for hero */
+@keyframes kenBurns {
+  0% { transform: scale(1.05) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-1%, -0.5%); }
+  100% { transform: scale(1.05) translate(0, 0); }
+}
+
+.ken-burns {
+  animation: kenBurns 20s ease-in-out infinite;
+}
+
+/* Hero animations */
+@keyframes heroFade {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroTextReveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-fade {
+  opacity: 0;
+  animation: heroFade 0.8s ease forwards;
+}
+
+.hero-text-reveal {
+  opacity: 0;
+  animation: heroTextReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scroll reveal */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFade 0.7s ease forwards;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -59,16 +97,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.7 0 0);
-  border-radius: 4px;
+  background: oklch(0.35 0 0);
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.5 0 0);
+  background: oklch(0.55 0 0);
 }
 
 /* Selection */
 ::selection {
-  background: oklch(0.25 0 0);
-  color: oklch(0.98 0 0);
+  background: oklch(0.75 0.12 85);
+  color: oklch(0.13 0 0);
 }
